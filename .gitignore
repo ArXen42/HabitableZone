@@ -1,0 +1,13 @@
+/HabitableZoneClient/Library
+/HabitableZoneClient/Temp
+/HabitableZoneClient/Build
+/HabitableZoneClient/*.sln
+/HabitableZoneClient/*.csproj
+/HabitableZoneClient/Assets/Plugins/CoreBuildTarget*
+/HabitableZoneClient/ProjectSettings/ProjectVersion.txt
+
+bin/
+obj/
+packages/
+.idea/
+.vs
