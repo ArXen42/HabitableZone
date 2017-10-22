@@ -1,2 +1,2 @@
 # HabitableZone
-Experimental attempt to write realistic multiplayer space 2D game inspired by X series, Space Rangers and Elite.
+Experimental attempt to write a realistic multiplayer 2D space game inspired by X series, Space Rangers and Elite.
