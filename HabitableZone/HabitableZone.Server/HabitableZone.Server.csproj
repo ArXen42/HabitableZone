@@ -131,8 +131,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="PlayerActor.cs" />
-    <Compile Include="PlayersManagerActor.cs" />
+    <Compile Include="ClientSessionActor.cs" />
+    <Compile Include="SessionsManagerActor.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

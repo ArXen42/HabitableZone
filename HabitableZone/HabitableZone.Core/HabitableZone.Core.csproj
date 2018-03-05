@@ -50,12 +50,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
-    <Compile Include="Messages\PlayersManagerMessages.cs" />
+    <Compile Include="ClientServerMessages\ClientSessionActorMessages.cs" />
+    <Compile Include="ClientServerMessages\ServerConnectionActorMessages.cs" />
+    <Compile Include="ClientServerMessages\SessionsManagerActorMessages.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="SharedActors" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

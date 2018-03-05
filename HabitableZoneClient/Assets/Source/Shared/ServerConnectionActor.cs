@@ -1,36 +1,41 @@
 ﻿using System;
 using Akka.Actor;
-using HabitableZone.Core.Messages;
-using UnityEngine;
-using Object = System.Object;
+using Akka.Event;
+using HabitableZone.Core.ClientServerMessages;
 
 namespace HabitableZone.Client.Shared
 {
-	public class ServerConnectionActor : ReceiveActor, ILogReceive
+	/// <inheritdoc />
+	/// <summary>
+	///    Handles communication with game server.
+	/// </summary>
+	public class ServerConnectionActor : ReceiveActor
 	{
-		public static Props Props(String serverAddress) =>
-			Akka.Actor.Props.Create(() => new ServerConnectionActor(serverAddress));
+		public static Props Props(String serverAddress)
+		{
+			return Akka.Actor.Props.Create(() => new ServerConnectionActor(serverAddress));
+		}
 
 		public ServerConnectionActor(String serverAddress)
 		{
-			_playersManagerActorRef = Context.ActorSelection($"akka.tcp://HabitableZoneServer@{serverAddress}:8081/user/playersManager");
+			_playersManagerActorRef = Context.ActorSelection($"akka.tcp://HabitableZoneServer@{serverAddress}:8081/user/sessionsManager");
 
-			Receive<PlayersManagerMessages.ConnectionRequest>(message =>
+			Receive<SessionsManagerActorMessages.ConnectRequest>(message =>
 			{
-				Debug.Log("Sending request to server");
+				_log.Info("Sending connect request to server");
 
 				_playersManagerActorRef.Tell(message);
 			});
 
-
-			Receive<PlayersManagerMessages.ConnectionResponce>(message =>
+			Receive<ServerConnectionActorMessages.ConnectResponce>(message =>
 			{
 				_playerActorRef = message.PlayerActorRef;
-				Debug.Log($"Connected to {_playerActorRef.Path}");
+				_log.Info($"Connected to {_playerActorRef.Path}");
 			});
 		}
 
-		private ActorSelection _playersManagerActorRef;
+		private readonly ActorSelection _playersManagerActorRef;
 		private IActorRef _playerActorRef;
+		private readonly ILoggingAdapter _log = Context.GetLogger();
 	}
 }

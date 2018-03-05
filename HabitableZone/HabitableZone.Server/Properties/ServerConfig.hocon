@@ -1,6 +1,10 @@
 akka {  
     actor {
         provider = "Akka.Remote.RemoteActorRefProvider, Akka.Remote"
+        
+        debug {
+            unhandled = on
+        }
     }
     remote {
         dot-netty.tcp {

@@ -13,7 +13,7 @@ namespace HabitableZone.Server
 
 			using (var system = ActorSystem.Create("HabitableZoneServer", config))
 			{
-				var mgr = system.ActorOf<PlayersManagerActor>("playersManager");
+				var mgr = system.ActorOf<SessionsManagerActor>("sessionsManager");
 
 				Console.ReadLine();
 			}
