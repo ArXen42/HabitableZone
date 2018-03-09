@@ -2,7 +2,9 @@
 using System.IO;
 using Akka.Actor;
 using Akka.Configuration;
+using HabitableZone.Core.World;
 using HabitableZone.Server.World;
+using Microsoft.EntityFrameworkCore;
 
 namespace HabitableZone.Server
 {
@@ -10,9 +12,11 @@ namespace HabitableZone.Server
 	{
 		public static void Main(String[] args)
 		{
-			var config = ConfigurationFactory.ParseString(File.ReadAllText(@"Properties/ServerConfig.hocon"));
+			ReinitializeDatabase();
 
-			using (var system = ActorSystem.Create("HabitableZoneServer", config))
+			var akkaConfig = ConfigurationFactory.ParseString(File.ReadAllText(@"Properties/ServerConfig.hocon"));
+
+			using (var system = ActorSystem.Create("HabitableZoneServer", akkaConfig))
 			{
 				var mgr = system.ActorOf<SessionsManagerActor>("sessionsManager");
 				var worldContextActor = system.ActorOf(WorldContextActor.Props(new WorldContextFactory()), "worldContext");
@@ -20,6 +24,25 @@ namespace HabitableZone.Server
 				Console.ReadLine();
 				system.Terminate();
 				system.WhenTerminated.Wait();
+			}
+		}
+
+		/// <summary>
+		///     Drops database and fills with predefined data. Temporary solution.
+		/// </summary>
+		private static void ReinitializeDatabase()
+		{
+			using (var context = new WorldContextFactory().CreateDbContext())
+			{
+				Console.WriteLine("Dropping database if exists");
+				context.Database.EnsureDeleted();
+				
+				Console.WriteLine("Creating fresh database with dev data");
+				context.Database.Migrate();
+
+				var testSpaceObject = new SpaceObject() {Id = Guid.NewGuid()};
+				context.SpaceObjects.Add(testSpaceObject);
+				context.SaveChanges();
 			}
 		}
 	}

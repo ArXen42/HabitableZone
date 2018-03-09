@@ -19,7 +19,7 @@ namespace HabitableZone.Server.World
 
 		protected override void PreStart()
 		{
-			using (var worldContext = new WorldContext())
+			using (var worldContext = _worldContextFactory.CreateDbContext())
 			{
 				var spaceObject = worldContext
 					.SpaceObjects
