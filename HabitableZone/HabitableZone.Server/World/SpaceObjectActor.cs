@@ -26,13 +26,19 @@ namespace HabitableZone.Server.World
 					.FirstOrDefault(so => so.Id == _id);
 
 				if (spaceObject == null)
+				{
 					worldContext.Add(new SpaceObject
 					{
 						Id = _id
 					});
 
-				worldContext.SaveChanges();
-				_log.Info($"New SpaceObject (Id: {_id}) created");
+					worldContext.SaveChanges();
+					_log.Info("New SpaceObject created");
+				}
+				else
+				{
+					_log.Info("Loaded SpaceObject from database");
+				}
 			}
 		}
 

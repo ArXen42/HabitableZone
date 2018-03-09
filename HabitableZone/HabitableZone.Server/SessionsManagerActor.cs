@@ -24,7 +24,7 @@ namespace HabitableZone.Server
 				};
 				Sender.Tell(responce);
 
-				_log.Info($"Connected player {message.PlayerGuid} ({message.Nick}) from {Sender.Path} on {playerActorRef.Path}");
+				_log.Info($"Connected player {message.PlayerGuid} ({message.Nick}) from [Sender.Path] on [playerActorRef.Path]");
 			});
 		}
 

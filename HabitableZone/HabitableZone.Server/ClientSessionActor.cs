@@ -36,7 +36,7 @@ namespace HabitableZone.Server
 		private void OnDisconnect()
 		{
 			Context.Stop(Self);
-			_logger.Info($"Stopped {Self.Path}, player {_playerGuid} ({_nick}) disconnected.");
+			_logger.Info($"Stopped, client {_nick} disconnected.");
 		}
 
 		private readonly IActorRef _remoteActorRef;

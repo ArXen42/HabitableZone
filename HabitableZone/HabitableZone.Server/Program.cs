@@ -15,9 +15,11 @@ namespace HabitableZone.Server
 			using (var system = ActorSystem.Create("HabitableZoneServer", config))
 			{
 				var mgr = system.ActorOf<SessionsManagerActor>("sessionsManager");
-				var worldContextActor = system.ActorOf(WorldContextActor.Props(new WorldContextFactory()));
+				var worldContextActor = system.ActorOf(WorldContextActor.Props(new WorldContextFactory()), "worldContext");
 
 				Console.ReadLine();
+				system.Terminate();
+				system.WhenTerminated.Wait();
 			}
 		}
 	}

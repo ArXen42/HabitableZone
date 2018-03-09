@@ -30,7 +30,7 @@ namespace HabitableZone.Client.Shared
 			Receive<ServerConnectionActorMessages.ConnectResponce>(message =>
 			{
 				_playerActorRef = message.PlayerActorRef;
-				_log.Info($"Connected to {_playerActorRef.Path}");
+				_log.Info($"Connected to [{_playerActorRef.Path}]");
 			});
 		}
 

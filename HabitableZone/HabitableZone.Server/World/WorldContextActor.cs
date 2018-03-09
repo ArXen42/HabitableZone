@@ -17,8 +17,8 @@ namespace HabitableZone.Server.World
 		{
 			using (var context = _worldContextFactory.CreateDbContext())
 			{
-				foreach (var spaceObjectId in context.SpaceObjects.Select(so => so.Id))
-					Context.ActorOf(SpaceObjectActor.Props(_worldContextFactory, spaceObjectId));
+				foreach (var id in context.SpaceObjects.Select(so => so.Id))
+					Context.ActorOf(SpaceObjectActor.Props(_worldContextFactory, id), $"spaceObject_{id}");
 			}
 		}
 
