@@ -38,7 +38,7 @@ namespace HabitableZone.Server
 				context.Database.EnsureDeleted();
 				
 				Console.WriteLine("Creating fresh database with dev data");
-				context.Database.Migrate();
+				context.Database.EnsureCreated();
 
 				var testSpaceObject = new SpaceObject() {Id = Guid.NewGuid()};
 				context.SpaceObjects.Add(testSpaceObject);
