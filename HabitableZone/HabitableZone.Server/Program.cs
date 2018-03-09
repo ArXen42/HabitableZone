@@ -2,6 +2,7 @@
 using System.IO;
 using Akka.Actor;
 using Akka.Configuration;
+using HabitableZone.Server.World;
 
 namespace HabitableZone.Server
 {
@@ -14,6 +15,7 @@ namespace HabitableZone.Server
 			using (var system = ActorSystem.Create("HabitableZoneServer", config))
 			{
 				var mgr = system.ActorOf<SessionsManagerActor>("sessionsManager");
+				var worldContextActor = system.ActorOf(WorldContextActor.Props(new WorldContextFactory()));
 
 				Console.ReadLine();
 			}
