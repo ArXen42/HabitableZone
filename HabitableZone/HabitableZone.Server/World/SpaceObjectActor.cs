@@ -6,7 +6,7 @@ using HabitableZone.Core.World;
 
 namespace HabitableZone.Server.World
 {
-	public class SpaceObjectActor : ReceiveActor
+	public class SpaceObjectActor : SpaceObjectActorBase
 	{
 		public static Props Props(WorldContextFactory worldContextFactory, Guid id)
 			=> Akka.Actor.Props.Create(() => new SpaceObjectActor(worldContextFactory, id));

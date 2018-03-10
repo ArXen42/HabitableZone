@@ -1,5 +1,5 @@
-﻿using System;
-using HabitableZone.Core.World;
+﻿using HabitableZone.Core.World;
+using HabitableZone.Server.World.Components;
 using Microsoft.EntityFrameworkCore;
 
 namespace HabitableZone.Server.World
@@ -13,7 +13,14 @@ namespace HabitableZone.Server.World
 
 		protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 		{
-			optionsBuilder.UseNpgsql(@"Server=localhost;Database=HabitableZone"); //TODO: Configuration
+			optionsBuilder
+				.UseNpgsql(@"Server=localhost;Database=HabitableZone"); //TODO: Configuration
+		}
+
+		protected override void OnModelCreating(ModelBuilder modelBuilder)
+		{
+			modelBuilder
+				.Entity<Transform>();
 		}
 	}
 
