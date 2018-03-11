@@ -1,7 +1,10 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using Akka.Actor;
 using Akka.Event;
 using HabitableZone.Core.World;
+using HabitableZone.Core.World.Components;
+using HabitableZone.Server.World.Components;
 
 namespace HabitableZone.Server.World
 {
@@ -16,33 +19,55 @@ namespace HabitableZone.Server.World
 		public SpaceObjectActor(WorldContextFactory worldContextFactory, SpaceObject so) : base(so)
 		{
 			_worldContextFactory = worldContextFactory;
-		}
 
-		protected override void PreStart()
-		{
 			using (var worldContext = _worldContextFactory.CreateDbContext())
 			{
-				var spaceObject = worldContext
-					.SpaceObjects
-					.FirstOrDefault(so => so.Id == _id);
+				var peristedSpaceObject = GetPersistedSpaceObject(worldContext, so);
 
-				if (spaceObject == null)
+				foreach (var component in peristedSpaceObject.Components)
 				{
-					worldContext.Add(new SpaceObject
-					{
-						Id = _id
-					});
-
-					worldContext.SaveChanges();
-					_log.Info("New SpaceObject created");
-				}
-				else
-				{
-					_log.Info("Loaded SpaceObject from database. Restoring components...");
+					var props = ResolveComponent(component);
+					Context.ActorOf(props, $"component_{component.Id}");
 				}
 
-				// TODO: Instantiate components
+				_log.Info($"{peristedSpaceObject.Components.Count} child components loaded.");
 			}
+		}
+
+		/// <summary>
+		///     Search database for space object with Id identical to Id of given object and returns it.
+		///     If such object was not found then given SpaceObject is saved to database and returned back.
+		/// </summary>
+		private SpaceObject GetPersistedSpaceObject(WorldContext worldContext, SpaceObject so)
+		{
+			var persistedSpaceObject = worldContext
+				.SpaceObjects
+				.FirstOrDefault(s => s.Id == so.Id);
+
+			if (persistedSpaceObject == null)
+			{
+				worldContext.Add(so);
+				worldContext.SaveChanges();
+
+				_log.Info("New SpaceObject created and saved to database. Starting components actors...");
+			}
+			else
+			{
+				_log.Info("Loaded SpaceObject from database. Starting components actors...");
+			}
+
+			return persistedSpaceObject ?? so;
+		}
+
+		/// <summary>
+		///     Returns Props of given component's data corresponding actor.
+		/// </summary>
+		private Props ResolveComponent(SpaceObjectComponent component)
+		{
+			if (component is Transform transform)
+				return TransformActor.Props(_worldContextFactory, transform);
+
+			throw new TypeLoadException("Can't find corresponding space object component actor type for given data type.");
 		}
 
 		private readonly WorldContextFactory _worldContextFactory;

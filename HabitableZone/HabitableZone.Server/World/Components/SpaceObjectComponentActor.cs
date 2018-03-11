@@ -1,4 +1,6 @@
-﻿using HabitableZone.Core.World.Components;
+﻿using System;
+using System.Linq;
+using HabitableZone.Core.World.Components;
 
 namespace HabitableZone.Server.World.Components
 {
@@ -7,8 +9,23 @@ namespace HabitableZone.Server.World.Components
 	/// </summary>
 	public abstract class SpaceObjectComponentActor : SpaceObjectComponentActorBase
 	{
-		protected SpaceObjectComponentActor(SpaceObjectComponent component) : base(component)
+		protected SpaceObjectComponentActor(WorldContextFactory worldContextFactory, SpaceObjectComponent component) : base(component)
 		{
+			_worldContextFactory = worldContextFactory;
+
+			using (var worldContext = worldContextFactory.CreateDbContext())
+			{
+				// Unlike SpaceObjectActor, it is assumed here that component is already persisted in database.
+				// Adding components to already existing SpaceObject is not needed now.
+				Boolean idFound = worldContext
+					.Components
+					.Any(c => c.Id == component.Id);
+				
+				if (!idFound)
+					throw new ArgumentException("Component with given Id not found.");
+			}
 		}
+
+		protected WorldContextFactory _worldContextFactory;
 	}
 }

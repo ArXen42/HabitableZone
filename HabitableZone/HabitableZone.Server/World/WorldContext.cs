@@ -1,6 +1,7 @@
 ﻿using System;
 using HabitableZone.Core.Geometry;
 using HabitableZone.Core.World;
+using HabitableZone.Core.World.Components;
 using HabitableZone.Server.World.Components;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage.Converters;
@@ -14,6 +15,7 @@ namespace HabitableZone.Server.World
 	public class WorldContext : DbContext
 	{
 		public DbSet<SpaceObject> SpaceObjects { get; set; }
+		public DbSet<SpaceObjectComponent> Components { get; set; }
 
 		protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 		{

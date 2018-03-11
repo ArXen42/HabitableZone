@@ -1,4 +1,5 @@
 ﻿using System;
+using Akka.Actor;
 using HabitableZone.Core.Geometry;
 using HabitableZone.Core.World.Components;
 
@@ -9,14 +10,14 @@ namespace HabitableZone.Server.World.Components
 	/// </summary>
 	public sealed class TransformActor : SpaceObjectComponentActor
 	{
-		public TransformActor(Transform component) : base(component)
-		{
-			_position = component.Position;
-			_rotation = component.Rotation;
-		}
+		public static Props Props(WorldContextFactory worldContextFactory, Transform component)
+			=> Akka.Actor.Props.Create(() => new TransformActor(worldContextFactory, component));
 
-		private Vector2D _position;
-		private Double _rotation;
+		public TransformActor(WorldContextFactory worldContextFactory, Transform component)
+			: base(worldContextFactory, component)
+		{
+			
+		}
 	}
 
 	/// <inheritdoc />
