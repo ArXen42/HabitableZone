@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 
 namespace HabitableZone.Core.Geometry
 {
@@ -12,6 +13,17 @@ namespace HabitableZone.Core.Geometry
 		public static readonly Vector2D Down = new Vector2D(0, -1);
 		public static readonly Vector2D Right = new Vector2D(1, 0);
 		public static readonly Vector2D Left = new Vector2D(-1, 0);
+
+		public static Vector2D Parse(String value)
+		{
+			var split = value.Trim('<', '>').Split(',');
+			if (split.Length != 2)
+				throw new FormatException();
+
+			Double x = Double.Parse(split[0], CultureInfo.InvariantCulture);
+			Double y = Double.Parse(split[1], CultureInfo.InvariantCulture);
+			return new Vector2D(x, y);
+		}
 
 		/// <summary>
 		///     Constructs a new Vector2D with given X and Y components.
@@ -51,6 +63,12 @@ namespace HabitableZone.Core.Geometry
 			{
 				return (X.GetHashCode() * 397) ^ Y.GetHashCode();
 			}
+		}
+
+		public override String ToString()
+		{
+			return
+				$"<{X.ToString(CultureInfo.InvariantCulture)},{Y.ToString(CultureInfo.InvariantCulture)}>";
 		}
 
 		public static Boolean operator ==(Vector2D left, Vector2D right)
