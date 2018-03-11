@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using Akka.Actor;
+﻿using Akka.Actor;
 using HabitableZone.Core.World;
 
 namespace HabitableZone.Server.World
@@ -18,8 +17,8 @@ namespace HabitableZone.Server.World
 		{
 			using (var context = _worldContextFactory.CreateDbContext())
 			{
-				foreach (var id in context.SpaceObjects.Select(so => so.Id))
-					Context.ActorOf(SpaceObjectActor.Props(_worldContextFactory, id), $"spaceObject_{id}");
+				foreach (var so in context.SpaceObjects)
+					Context.ActorOf(SpaceObjectActor.Props(_worldContextFactory, so), $"spaceObject_{so.Id}");
 			}
 		}
 

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using Akka.Actor;
 using Akka.Event;
 using HabitableZone.Core.World;
@@ -11,12 +10,11 @@ namespace HabitableZone.Server.World
 	/// </summary>
 	public class SpaceObjectActor : SpaceObjectActorBase
 	{
-		public static Props Props(WorldContextFactory worldContextFactory, Guid id)
-			=> Akka.Actor.Props.Create(() => new SpaceObjectActor(worldContextFactory, id));
+		public static Props Props(WorldContextFactory worldContextFactory, SpaceObject so)
+			=> Akka.Actor.Props.Create(() => new SpaceObjectActor(worldContextFactory, so));
 
-		public SpaceObjectActor(WorldContextFactory worldContextFactory, Guid id)
+		public SpaceObjectActor(WorldContextFactory worldContextFactory, SpaceObject so) : base(so)
 		{
-			_id = id;
 			_worldContextFactory = worldContextFactory;
 		}
 
@@ -42,12 +40,10 @@ namespace HabitableZone.Server.World
 				{
 					_log.Info("Loaded SpaceObject from database. Restoring components...");
 				}
-			
+
 				// TODO: Instantiate components
 			}
 		}
-
-		private readonly Guid _id;
 
 		private readonly WorldContextFactory _worldContextFactory;
 		private readonly ILoggingAdapter _log = Context.GetLogger();
