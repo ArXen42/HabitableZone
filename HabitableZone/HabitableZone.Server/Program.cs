@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.IO;
 using Akka.Actor;
 using Akka.Configuration;
+using Akka.DI.AutoFac;
+using Akka.DI.Core;
+using Autofac;
 using HabitableZone.Core.Geometry;
 using HabitableZone.Core.World;
 using HabitableZone.Core.World.Components;
@@ -15,14 +18,30 @@ namespace HabitableZone.Server
 	{
 		public static void Main(String[] args)
 		{
-			ReinitializeDatabase();
+			var builder = new ContainerBuilder();
+			builder
+				.RegisterType<WorldContextFactory>()
+				.SingleInstance();
+
+			builder.RegisterType<SessionsManagerActor>();
+			builder.RegisterType<WorldContextActor>();
+
+			var container = builder.Build();
+
+			ReinitializeDatabase(container.Resolve<WorldContextFactory>());
 
 			var akkaConfig = ConfigurationFactory.ParseString(File.ReadAllText(@"Properties/ServerConfig.hocon"));
-
 			using (var system = ActorSystem.Create("HabitableZoneServer", akkaConfig))
 			{
-				var mgr = system.ActorOf<SessionsManagerActor>("sessionsManager");
-				var worldContextActor = system.ActorOf(WorldContextActor.Props(new WorldContextFactory()), "worldContext");
+				var propsResolver = new AutoFacDependencyResolver(container, system);
+
+				var mgr = system.ActorOf(
+					system.DI().Props<SessionsManagerActor>(),
+					"sessionsManager");
+
+				var worldContextActor = system.ActorOf(
+					system.DI().Props<WorldContextActor>(),
+					"worldContext");
 
 				Console.ReadLine();
 				system.Terminate();
@@ -33,9 +52,9 @@ namespace HabitableZone.Server
 		/// <summary>
 		///     Drops database and fills with predefined data. Temporary solution.
 		/// </summary>
-		private static void ReinitializeDatabase()
+		private static void ReinitializeDatabase(WorldContextFactory worldContextFactory)
 		{
-			using (var context = new WorldContextFactory().CreateDbContext())
+			using (var context = worldContextFactory.CreateDbContext())
 			{
 				Console.WriteLine("Dropping database if exists");
 				context.Database.EnsureDeleted();

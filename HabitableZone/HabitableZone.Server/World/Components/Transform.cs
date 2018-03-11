@@ -23,7 +23,7 @@ namespace HabitableZone.Server.World.Components
 	/// <summary>
 	///     Data object for Transform component.
 	/// </summary>
-	public sealed class Transform : SpaceObjectComponent
+	public class Transform : SpaceObjectComponent
 	{
 		/// <summary>
 		///     Position of space object.

@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore.Storage.Converters;
 
 namespace HabitableZone.Server.World
 {
+	/// <inheritdoc />
 	/// <summary>
 	///     Provides data storage of world information (space objects, their components, etc).
 	/// </summary>
@@ -17,6 +18,7 @@ namespace HabitableZone.Server.World
 		protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 		{
 			optionsBuilder
+				.UseLazyLoadingProxies()
 				.UseNpgsql(@"Server=localhost;Database=HabitableZone"); //TODO: Configuration
 		}
 

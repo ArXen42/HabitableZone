@@ -21,10 +21,10 @@ namespace HabitableZone.Core.World
 	/// <summary>
 	///     SpaceObject data object.
 	/// </summary>
-	public sealed class SpaceObject
+	public class SpaceObject
 	{
 		public Guid Id { get; set; }
 
-		public ICollection<SpaceObjectComponent> Components { get; set; }
+		public virtual ICollection<SpaceObjectComponent> Components { get; set; }
 	}
 }
