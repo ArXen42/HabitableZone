@@ -1,6 +1,10 @@
-﻿using HabitableZone.Core.World;
+﻿using System;
+using HabitableZone.Core.Geometry;
+using HabitableZone.Core.World;
+using HabitableZone.Core.World.Components;
 using HabitableZone.Server.World.Components;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage.Converters;
 
 namespace HabitableZone.Server.World
 {
@@ -19,8 +23,13 @@ namespace HabitableZone.Server.World
 
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
+			var vector2DConverter = new ValueConverter<Vector2D, String>(
+				v => v.ToString(),
+				s => Vector2D.Parse(s));
+
 			modelBuilder
-				.Entity<Transform>();
+				.Entity<Transform>()
+				.Property(t => t.Position).HasConversion(vector2DConverter);
 		}
 	}
 

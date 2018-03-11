@@ -6,6 +6,9 @@ using HabitableZone.Core.World;
 
 namespace HabitableZone.Server.World
 {
+	/// <summary>
+	///     Server-side space object's actor. Loads components.
+	/// </summary>
 	public class SpaceObjectActor : SpaceObjectActorBase
 	{
 		public static Props Props(WorldContextFactory worldContextFactory, Guid id)
@@ -13,8 +16,8 @@ namespace HabitableZone.Server.World
 
 		public SpaceObjectActor(WorldContextFactory worldContextFactory, Guid id)
 		{
-			_worldContextFactory = worldContextFactory;
 			_id = id;
+			_worldContextFactory = worldContextFactory;
 		}
 
 		protected override void PreStart()
@@ -37,14 +40,16 @@ namespace HabitableZone.Server.World
 				}
 				else
 				{
-					_log.Info("Loaded SpaceObject from database");
+					_log.Info("Loaded SpaceObject from database. Restoring components...");
 				}
+			
+				// TODO: Instantiate components
 			}
 		}
 
-		private readonly WorldContextFactory _worldContextFactory;
 		private readonly Guid _id;
 
+		private readonly WorldContextFactory _worldContextFactory;
 		private readonly ILoggingAdapter _log = Context.GetLogger();
 	}
 }
