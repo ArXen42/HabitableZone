@@ -14,10 +14,7 @@ namespace HabitableZone.Server.World.Components
 			=> Akka.Actor.Props.Create(() => new TransformActor(worldContextFactory, component));
 
 		public TransformActor(WorldContextFactory worldContextFactory, Transform component)
-			: base(worldContextFactory, component)
-		{
-			
-		}
+			: base(worldContextFactory, component) { }
 	}
 
 	/// <inheritdoc />
