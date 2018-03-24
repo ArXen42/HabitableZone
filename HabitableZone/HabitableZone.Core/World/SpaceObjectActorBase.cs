@@ -5,15 +5,15 @@ namespace HabitableZone.Core.World
 {
 	/// <inheritdoc />
 	/// <summary>
-	///     Base SpaceObject actor.
+	///    Base SpaceObject actor.
 	/// </summary>
 	public abstract class SpaceObjectActorBase : ReceiveActor
 	{
+		protected readonly Guid Id;
+
 		protected SpaceObjectActorBase(SpaceObject so)
 		{
-			_id = so.Id;
+			Id = so.Id;
 		}
-
-		protected readonly Guid _id;
 	}
 }

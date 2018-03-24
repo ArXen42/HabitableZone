@@ -1,9 +1,11 @@
-﻿using HabitableZone.Core.World;
+﻿using System;
+using HabitableZone.Core.World;
 
-namespace HabitableZone.Server.World.Components {
+namespace HabitableZone.Server.World.Components
+{
 	/// <inheritdoc />
 	/// <summary>
-	///     Represents celestial body. Controls object's Transform.
+	///    Represents celestial body. Controls object's Transform.
 	/// </summary>
 	public abstract class CelestialBodyActor : TickableComponentActor
 	{
@@ -12,7 +14,7 @@ namespace HabitableZone.Server.World.Components {
 
 		protected override void OnTick(Tick tick)
 		{
-			throw new System.NotImplementedException();
+			throw new NotImplementedException();
 		}
 	}
 }

@@ -9,12 +9,12 @@ using HabitableZone.Server.World.Components;
 namespace HabitableZone.Server.World
 {
 	/// <summary>
-	///     Server-side space object's actor. Loads components.
+	///    Server-side space object's actor. Loads components.
 	/// </summary>
 	public class SpaceObjectActor : SpaceObjectActorBase
 	{
-		public static Props Props(WorldContextFactory worldContextFactory, SpaceObject so)
-			=> Akka.Actor.Props.Create(() => new SpaceObjectActor(worldContextFactory, so));
+		private readonly WorldContextFactory _worldContextFactory;
+		private readonly ILoggingAdapter _log = Context.GetLogger();
 
 		public SpaceObjectActor(WorldContextFactory worldContextFactory, SpaceObject so) : base(so)
 		{
@@ -34,9 +34,14 @@ namespace HabitableZone.Server.World
 			}
 		}
 
+		public static Props Props(WorldContextFactory worldContextFactory, SpaceObject so)
+		{
+			return Akka.Actor.Props.Create(() => new SpaceObjectActor(worldContextFactory, so));
+		}
+
 		/// <summary>
-		///     Search database for space object with Id identical to Id of given object and returns it.
-		///     If such object was not found then given SpaceObject is saved to database and returned back.
+		///    Search database for space object with Id identical to Id of given object and returns it.
+		///    If such object was not found then given SpaceObject is saved to database and returned back.
 		/// </summary>
 		private SpaceObject GetPersistedSpaceObject(WorldContext worldContext, SpaceObject so)
 		{
@@ -60,7 +65,7 @@ namespace HabitableZone.Server.World
 		}
 
 		/// <summary>
-		///     Returns Props of given component's data corresponding actor.
+		///    Returns Props of given component's data corresponding actor.
 		/// </summary>
 		private Props ResolveComponent(SpaceObjectComponent component)
 		{
@@ -69,8 +74,5 @@ namespace HabitableZone.Server.World
 
 			throw new TypeLoadException("Can't find corresponding space object component actor type for given data type.");
 		}
-
-		private readonly WorldContextFactory _worldContextFactory;
-		private readonly ILoggingAdapter _log = Context.GetLogger();
 	}
 }

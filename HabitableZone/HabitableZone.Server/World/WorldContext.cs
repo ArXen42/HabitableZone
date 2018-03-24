@@ -10,7 +10,7 @@ namespace HabitableZone.Server.World
 {
 	/// <inheritdoc />
 	/// <summary>
-	///     Provides data storage of world information (space objects, their components, etc).
+	///    Provides data storage of world information (space objects, their components, etc).
 	/// </summary>
 	public class WorldContext : DbContext
 	{

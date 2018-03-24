@@ -10,6 +10,8 @@ namespace HabitableZone.Server
 	/// </summary>
 	internal class SessionsManagerActor : ReceiveActor
 	{
+		private readonly ILoggingAdapter _log = Context.GetLogger();
+
 		public SessionsManagerActor()
 		{
 			Receive<SessionsManagerActorMessages.ConnectRequest>(message =>
@@ -27,7 +29,5 @@ namespace HabitableZone.Server
 				_log.Info($"Connected player {message.PlayerGuid} ({message.Nick}) from [Sender.Path] on [playerActorRef.Path]");
 			});
 		}
-
-		private readonly ILoggingAdapter _log = Context.GetLogger();
 	}
 }

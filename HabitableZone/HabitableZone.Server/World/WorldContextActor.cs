@@ -4,6 +4,8 @@ namespace HabitableZone.Server.World
 {
 	public class WorldContextActor : WorldContextBase
 	{
+		private readonly WorldContextFactory _worldContextFactory;
+
 		public WorldContextActor(WorldContextFactory worldContextFactory)
 		{
 			_worldContextFactory = worldContextFactory;
@@ -17,7 +19,5 @@ namespace HabitableZone.Server.World
 					Context.ActorOf(SpaceObjectActor.Props(_worldContextFactory, so), $"spaceObject_{so.Id}");
 			}
 		}
-
-		private readonly WorldContextFactory _worldContextFactory;
 	}
 }

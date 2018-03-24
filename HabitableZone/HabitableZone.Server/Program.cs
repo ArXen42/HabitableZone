@@ -50,7 +50,7 @@ namespace HabitableZone.Server
 		}
 
 		/// <summary>
-		///     Drops database and fills with predefined data. Temporary solution.
+		///    Drops database and fills with predefined data. Temporary solution.
 		/// </summary>
 		private static void ReinitializeDatabase(WorldContextFactory worldContextFactory)
 		{
@@ -65,7 +65,7 @@ namespace HabitableZone.Server
 				var testSpaceObject = new SpaceObject
 				{
 					Id = Guid.NewGuid(),
-					Components = new List<SpaceObjectComponent>()
+					Components = new List<SpaceObjectComponent>
 					{
 						new Transform
 						{

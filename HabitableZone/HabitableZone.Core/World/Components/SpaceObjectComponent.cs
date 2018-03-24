@@ -3,7 +3,7 @@
 namespace HabitableZone.Core.World.Components
 {
 	/// <summary>
-	///     Base data type for SpaceObject's components.
+	///    Base data type for SpaceObject's components.
 	/// </summary>
 	public abstract class SpaceObjectComponent
 	{

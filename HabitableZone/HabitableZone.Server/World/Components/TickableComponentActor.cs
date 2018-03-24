@@ -6,7 +6,7 @@ namespace HabitableZone.Server.World.Components
 {
 	/// <inheritdoc />
 	/// <summary>
-	///     Represents actor which receives tick messages.
+	///    Represents actor which receives tick messages.
 	/// </summary>
 	public abstract class TickableComponentActor : SpaceObjectComponentActor
 	{

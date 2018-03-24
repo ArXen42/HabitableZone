@@ -11,10 +11,10 @@ namespace HabitableZone.Server
 	/// </summary>
 	internal class ClientSessionActor : ReceiveActor
 	{
-		public static Props Props(Guid playerGuid, String nick, IActorRef remoteActorRef)
-		{
-			return Akka.Actor.Props.Create(() => new ClientSessionActor(playerGuid, nick, remoteActorRef));
-		}
+		private readonly IActorRef _remoteActorRef;
+		private readonly Guid _playerGuid;
+		private readonly String _nick;
+		private readonly ILoggingAdapter _logger = Context.GetLogger();
 
 		public ClientSessionActor(Guid playerGuid, String nick, IActorRef remoteActorRef)
 		{
@@ -33,15 +33,15 @@ namespace HabitableZone.Server
 			Receive<Terminated>(message => OnDisconnect());
 		}
 
+		public static Props Props(Guid playerGuid, String nick, IActorRef remoteActorRef)
+		{
+			return Akka.Actor.Props.Create(() => new ClientSessionActor(playerGuid, nick, remoteActorRef));
+		}
+
 		private void OnDisconnect()
 		{
 			Context.Stop(Self);
 			_logger.Info($"Stopped, client {_nick} disconnected.");
 		}
-
-		private readonly IActorRef _remoteActorRef;
-		private readonly Guid _playerGuid;
-		private readonly String _nick;
-		private readonly ILoggingAdapter _logger = Context.GetLogger();
 	}
 }

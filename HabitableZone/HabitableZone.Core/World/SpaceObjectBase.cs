@@ -5,12 +5,11 @@ using HabitableZone.Core.World.Components;
 namespace HabitableZone.Core.World
 {
 	/// <summary>
-	///     SpaceObject data object.
+	///    SpaceObject data object.
 	/// </summary>
 	public class SpaceObject
 	{
-		public Guid Id { get; set; }
-
 		public virtual ICollection<SpaceObjectComponent> Components { get; set; }
+		public Guid Id { get; set; }
 	}
 }

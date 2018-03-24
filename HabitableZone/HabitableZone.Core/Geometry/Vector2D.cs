@@ -4,7 +4,7 @@ using System.Globalization;
 namespace HabitableZone.Core.Geometry
 {
 	/// <summary>
-	///     Provides two-dimensional double-precision mutable vector.
+	///    Provides two-dimensional double-precision mutable vector.
 	/// </summary>
 	public struct Vector2D : IEquatable<Vector2D>
 	{
@@ -26,7 +26,7 @@ namespace HabitableZone.Core.Geometry
 		}
 
 		/// <summary>
-		///     Constructs a new Vector2D with given X and Y components.
+		///    Constructs a new Vector2D with given X and Y components.
 		/// </summary>
 		/// <param name="x">X component.</param>
 		/// <param name="y">Y component.</param>
@@ -37,12 +37,12 @@ namespace HabitableZone.Core.Geometry
 		}
 
 		/// <summary>
-		///     X component.
+		///    X component.
 		/// </summary>
 		public Double X;
 
 		/// <summary>
-		///     Y component.
+		///    Y component.
 		/// </summary>
 		public Double Y;
 
